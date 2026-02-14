@@ -48,30 +48,8 @@ function App() {
   }, []);
 
   const handleInstallClick = async () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      
-      const { outcome } = await deferredPrompt.userChoice;
-      
-      if (outcome === 'accepted') {
-        console.log('User accepted the install prompt');
-        setButtonText('Installing...');
-        setButtonDisabled(true);
-      } else {
-        console.log('User dismissed the install prompt');
-      }
-      
-      setDeferredPrompt(null);
-    } else {
-      if (window.matchMedia('(display-mode: standalone)').matches) {
-        alert('LOT7 is already installed on your device!');
-      } else {
-        alert('To install LOT7:\n\n' +
-              '1. On Android Chrome: Tap the menu (⋮) > "Add to Home screen"\n' +
-              '2. On iOS Safari: Tap Share (⎙) > "Add to Home Screen"\n' +
-              '3. On Desktop: Look for the install icon in the address bar');
-      }
-    }
+    // Redirect to Lottery7 registration page
+    window.location.href = 'https://www.uuulottery7.com/#/register?invitationCode=3167818365044';
   };
 
   return (

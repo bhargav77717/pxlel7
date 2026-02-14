@@ -1,52 +1,203 @@
-import { useEffect } from "react";
-import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import '@/App.css';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+function App() {
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [buttonText, setButtonText] = useState('Install');
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
+  useEffect(() => {
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(registration => {
+          console.log('Service Worker registered successfully:', registration.scope);
+        })
+        .catch(error => {
+          console.log('Service Worker registration failed:', error);
+        });
+    }
+
+    // Capture the beforeinstallprompt event
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      console.log('beforeinstallprompt event captured');
+    };
+
+    // Detect if app is already installed
+    const handleAppInstalled = () => {
+      console.log('LOT7 was installed');
+      setButtonText('Installed');
+      setButtonDisabled(true);
+      setDeferredPrompt(null);
+    };
+
+    // Check if running in standalone mode
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setButtonText('Open');
+    }
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+        setButtonText('Installing...');
+        setButtonDisabled(true);
+      } else {
+        console.log('User dismissed the install prompt');
+      }
+      
+      setDeferredPrompt(null);
+    } else {
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        alert('LOT7 is already installed on your device!');
+      } else {
+        alert('To install LOT7:\n\n' +
+              '1. On Android Chrome: Tap the menu (⋮) > "Add to Home screen"\n' +
+              '2. On iOS Safari: Tap Share (⎙) > "Add to Home Screen"\n' +
+              '3. On Desktop: Look for the install icon in the address bar');
+      }
     }
   };
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
   return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="play-store-container">
+      {/* App Header */}
+      <div className="app-header">
+        <img 
+          src="https://customer-assets.emergentagent.com/job_lot7-mobile-store/artifacts/9cs2voqw_IMG_20260214_221630_606.jpg" 
+          alt="LOT7 App Icon" 
+          className="app-icon"
+        />
+        <div className="app-info">
+          <h1 className="app-title">LOT7</h1>
+          <div className="app-developer">Lottery7 Gaming Ltd</div>
+          <div className="verified-badge">
+            <svg className="verified-icon" viewBox="0 0 24 24" fill="#01875f">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+            </svg>
+            Verified by Play Protect
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Bar */}
+      <div className="stats-bar">
+        <div className="stat-item">
+          <div className="stat-value">
+            4.8 <span className="star">★</span>
+          </div>
+          <div className="stat-label">4.8M reviews</div>
+        </div>
+        <div className="stat-divider"></div>
+        <div className="stat-item">
+          <div className="stat-value">1M+</div>
+          <div className="stat-label">Downloads</div>
+        </div>
+        <div className="stat-divider"></div>
+        <div className="stat-item">
+          <div className="stat-value">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#5f6368">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            18+
+          </div>
+          <div className="stat-label">Rated for 18+</div>
+        </div>
+      </div>
+
+      {/* Install Button */}
+      <div className="install-section">
+        <button 
+          onClick={handleInstallClick}
+          className="install-button"
+          data-testid="install-button"
+          disabled={buttonDisabled}
         >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+          {buttonText}
+        </button>
+        <div className="install-note">This app is available for your device</div>
+      </div>
 
-function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      {/* Screenshots */}
+      <div className="screenshots-container">
+        <h2 className="section-title">Screenshots</h2>
+        <div className="screenshots-scroll">
+          <img 
+            src="https://images.unsplash.com/photo-1621691187532-bbeb671757ac?w=400&h=800&fit=crop" 
+            alt="Screenshot 1" 
+            className="screenshot"
+          />
+          <img 
+            src="https://images.unsplash.com/photo-1744974086616-8cd4368609ba?w=400&h=800&fit=crop" 
+            alt="Screenshot 2" 
+            className="screenshot"
+          />
+          <img 
+            src="https://images.unsplash.com/photo-1570894808314-677b57f25e45?w=400&h=800&fit=crop" 
+            alt="Screenshot 3" 
+            className="screenshot"
+          />
+        </div>
+      </div>
+
+      {/* About Section */}
+      <div className="about-section">
+        <h2 className="section-title">About this app</h2>
+        <div className="about-text">
+          Lottery7 game is one of the world's most renowned online gambling operator offering a thrilling and entertaining range of games, including Poker, live casino, Chess, Slot games, Fishing, Lottery, and Sports betting. It is authorized and regulated by the government of Curacao and operates under license number matla issued to 886/JAZ. It has passed all compliance checks and holds legal authorization to conduct all gaming operations involving opportunities and betting.
+        </div>
+      </div>
+
+      {/* App Info Grid */}
+      <div className="info-grid">
+        <div className="info-item">
+          <div className="info-label">Updated on</div>
+          <div className="info-value">Feb 14, 2026</div>
+        </div>
+        <div className="info-item">
+          <div className="info-label">Size</div>
+          <div className="info-value">42M</div>
+        </div>
+        <div className="info-item">
+          <div className="info-label">Installs</div>
+          <div className="info-value">1,000,000+</div>
+        </div>
+        <div className="info-item">
+          <div className="info-label">Current Version</div>
+          <div className="info-value">2.5.1</div>
+        </div>
+        <div className="info-item">
+          <div className="info-label">Requires Android</div>
+          <div className="info-value">5.0 and up</div>
+        </div>
+        <div className="info-item">
+          <div className="info-label">Content Rating</div>
+          <div className="info-value">Rated for 18+ • Simulated Gambling</div>
+        </div>
+        <div className="info-item">
+          <div className="info-label">Offered By</div>
+          <div className="info-value">Lottery7 Gaming Ltd</div>
+        </div>
+        <div className="info-item">
+          <div className="info-label">Developer</div>
+          <div className="info-value">contact@lottery7.com</div>
+        </div>
+      </div>
     </div>
   );
 }

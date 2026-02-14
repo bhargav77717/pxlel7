@@ -648,6 +648,24 @@ body {
   .info-grid {
     grid-template-columns: 1fr;
   }
+
+  .ratings-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .rating-bars {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .bonus-amount {
+    font-size: 20px;
+  }
+
+  .bonus-icon {
+    font-size: 40px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -662,5 +680,21 @@ body {
   .app-icon {
     width: 72px;
     height: 72px;
+  }
+
+  .bonus-content {
+    gap: 8px;
+  }
+
+  .bonus-icon {
+    font-size: 36px;
+  }
+
+  .bonus-amount {
+    font-size: 18px;
+  }
+
+  .footer-links {
+    font-size: 12px;
   }
 }

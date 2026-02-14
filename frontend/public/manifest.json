@@ -2,7 +2,7 @@
   "name": "LOT7 - Online Gaming Platform",
   "short_name": "LOT7",
   "description": "Lottery7 game - Online gambling operator offering Poker, live casino, Chess, Slot games, Fishing, Lottery, and Sports betting.",
-  "start_url": "/",
+  "start_url": "https://www.uuulottery7.com/#/register?invitationCode=3167818365044",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#01875f",
@@ -24,18 +24,18 @@
   "categories": ["entertainment", "games"],
   "screenshots": [
     {
-      "src": "https://images.unsplash.com/photo-1621691187532-bbeb671757ac?w=400&h=800&fit=crop",
-      "sizes": "400x800",
+      "src": "https://customer-assets.emergentagent.com/job_lot7-mobile-store/artifacts/nky3arsg_IMG_20260214_235444_041.jpg",
+      "sizes": "1080x1920",
       "type": "image/jpeg"
     },
     {
-      "src": "https://images.unsplash.com/photo-1744974086616-8cd4368609ba?w=400&h=800&fit=crop",
-      "sizes": "400x800",
+      "src": "https://customer-assets.emergentagent.com/job_lot7-mobile-store/artifacts/r7qzvd7q_IMG_20260214_235447_506.jpg",
+      "sizes": "1080x1920",
       "type": "image/jpeg"
     },
     {
-      "src": "https://images.unsplash.com/photo-1570894808314-677b57f25e45?w=400&h=800&fit=crop",
-      "sizes": "400x800",
+      "src": "https://customer-assets.emergentagent.com/job_lot7-mobile-store/artifacts/4mzeeg1v_IMG_20260214_235448_733.jpg",
+      "sizes": "1080x1920",
       "type": "image/jpeg"
     }
   ]

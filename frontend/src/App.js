@@ -3,7 +3,7 @@ import '@/App.css';
 
 function App() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [buttonText, setButtonText] = useState('Install');
+  const [buttonText, setButtonText] = useState('Instant Install 10 secs');
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
   useEffect(() => {
@@ -138,18 +138,18 @@ function App() {
         <h2 className="section-title">Screenshots</h2>
         <div className="screenshots-scroll">
           <img 
-            src="https://images.unsplash.com/photo-1621691187532-bbeb671757ac?w=400&h=800&fit=crop" 
-            alt="Screenshot 1" 
+            src="https://customer-assets.emergentagent.com/job_lot7-mobile-store/artifacts/nky3arsg_IMG_20260214_235444_041.jpg" 
+            alt="LOT7 Slot Machine Games" 
             className="screenshot"
           />
           <img 
-            src="https://images.unsplash.com/photo-1744974086616-8cd4368609ba?w=400&h=800&fit=crop" 
-            alt="Screenshot 2" 
+            src="https://customer-assets.emergentagent.com/job_lot7-mobile-store/artifacts/r7qzvd7q_IMG_20260214_235447_506.jpg" 
+            alt="LOT7 Lottery Winning" 
             className="screenshot"
           />
           <img 
-            src="https://images.unsplash.com/photo-1570894808314-677b57f25e45?w=400&h=800&fit=crop" 
-            alt="Screenshot 3" 
+            src="https://customer-assets.emergentagent.com/job_lot7-mobile-store/artifacts/4mzeeg1v_IMG_20260214_235448_733.jpg" 
+            alt="LOT7 Game Dashboard" 
             className="screenshot"
           />
         </div>

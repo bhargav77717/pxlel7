@@ -121,7 +121,7 @@ body {
   font-weight: 500;
   font-family: 'Roboto', sans-serif;
   cursor: pointer;
-  background-color 0.2s;
+  transition: background-color 0.2s;
   text-transform: none;
   letter-spacing: 0.25px;
 }

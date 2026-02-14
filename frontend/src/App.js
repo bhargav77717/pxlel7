@@ -79,7 +79,7 @@ function App() {
           <div className="stat-value">
             4.8 <span className="star">★</span>
           </div>
-          <div className="stat-label">4.8M reviews</div>
+          <div className="stat-label">215K reviews</div>
         </div>
         <div className="stat-divider"></div>
         <div className="stat-item">
@@ -95,6 +95,21 @@ function App() {
             18+
           </div>
           <div className="stat-label">Rated for 18+</div>
+        </div>
+      </div>
+
+      {/* Welcome Bonus Banner */}
+      <div className="bonus-banner">
+        <div className="bonus-content">
+          <div className="bonus-icon">🎁</div>
+          <div className="bonus-text">
+            <div className="bonus-title">EXCLUSIVE WELCOME OFFER</div>
+            <div className="bonus-amount">UP TO ₹580 BONUS</div>
+            <div className="bonus-subtitle">For New Players Only!</div>
+          </div>
+          <div className="bonus-badge">
+            <span className="bonus-badge-text">LIMITED</span>
+          </div>
         </div>
       </div>
 

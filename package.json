@@ -1,0 +1,20 @@
+{
+  "name": "lot7-play-store",
+  "version": "1.0.0",
+  "description": "LOT7 Google Play Store Landing Page",
+  "scripts": {
+    "build": "cd frontend && yarn install && yarn build",
+    "start": "cd frontend && yarn start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/lot7-mobile-store.git"
+  },
+  "keywords": [
+    "lottery7",
+    "gaming",
+    "pwa"
+  ],
+  "author": "Lottery7 Gaming Ltd",
+  "license": "MIT"
+}

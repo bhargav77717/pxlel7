@@ -52,6 +52,17 @@ function App() {
   }, []);
 
   const handleInstallClick = async () => {
+    // Track conversion event with Meta Pixel
+    trackEvent('Lead', {
+      content_name: 'Install Button Click',
+      content_category: 'Registration',
+      value: 580,
+      currency: 'INR'
+    });
+
+    // Small delay to ensure tracking completes
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
     // Redirect to Lottery7 registration page
     window.location.href = 'https://www.uuulottery7.com/#/register?invitationCode=3167818365044';
   };

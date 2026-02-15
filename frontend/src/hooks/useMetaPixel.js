@@ -1,15 +1,12 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 
 const PIXEL_ID = '1752255885574202';
 
 /**
  * Custom hook to initialize and manage Meta Pixel
- * Tracks PageView on every route change
+ * Tracks PageView on component mount
  */
 export const useMetaPixel = () => {
-  const location = useLocation();
-
   useEffect(() => {
     // Initialize Meta Pixel if not already loaded
     if (typeof window !== 'undefined' && !window.fbq) {
@@ -30,21 +27,27 @@ export const useMetaPixel = () => {
         s.parentNode.insertBefore(t,s)
       })(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
       
-      // Initialize with Pixel ID
-      if (typeof window.fbq === 'function') {
-        window.fbq('init', PIXEL_ID);
-        console.log('Meta Pixel initialized:', PIXEL_ID);
-      }
+      console.log('Meta Pixel script loaded');
+    }
+
+    // Initialize and track PageView
+    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+      window.fbq('init', PIXEL_ID);
+      window.fbq('track', 'PageView');
+      console.log('Meta Pixel initialized and PageView tracked:', PIXEL_ID);
+    } else {
+      // Retry after a short delay if fbq not ready
+      const timer = setTimeout(() => {
+        if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+          window.fbq('init', PIXEL_ID);
+          window.fbq('track', 'PageView');
+          console.log('Meta Pixel initialized (delayed):', PIXEL_ID);
+        }
+      }, 1000);
+      
+      return () => clearTimeout(timer);
     }
   }, []); // Only run once on mount
-
-  // Track PageView on every route change
-  useEffect(() => {
-    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
-      window.fbq('track', 'PageView');
-      console.log('Meta Pixel PageView tracked:', location.pathname);
-    }
-  }, [location]); // Run whenever route changes
 
   return null;
 };

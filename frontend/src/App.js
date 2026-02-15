@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import '@/App.css';
+import { useMetaPixel, trackEvent } from '@/hooks/useMetaPixel';
 
 function App() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [buttonText, setButtonText] = useState('Instant Install 10 secs');
   const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  // Initialize Meta Pixel and track route changes
+  useMetaPixel();
 
   useEffect(() => {
     // Register service worker

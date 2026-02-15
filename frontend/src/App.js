@@ -48,14 +48,6 @@ function App() {
   }, []);
 
   const handleInstallClick = async () => {
-    // Track button click event with Meta Pixel
-    if (typeof window.fbq !== 'undefined') {
-      window.fbq('track', 'Lead', {
-        content_name: 'Install Button Click',
-        content_category: 'Registration'
-      });
-    }
-    
     // Redirect to Lottery7 registration page
     window.location.href = 'https://www.uuulottery7.com/#/register?invitationCode=3167818365044';
   };
